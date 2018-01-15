@@ -1,7 +1,10 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
+#include "Tank.h"
 #include "TankAIController.h"
 
+
+// Called when the game starts or when spawned
 void ATankAIController::BeginPlay()
 {
 	Super::BeginPlay();
@@ -26,6 +29,22 @@ void ATankAIController::BeginPlay()
 	else
 	{
 		UE_LOG(LogTemp, Warning, TEXT("%s have aimed on %s"), *(this->GetName()), *PlayerTank->GetName())
+	}
+}
+
+// Called every frame
+void ATankAIController::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+	if (GetPlayerTank())
+	{
+		//TODO Move towards a player
+
+		//Aim towards a player
+		GetAIControlledTank()->AimAt(GetPlayerTank()->GetActorLocation()); // Parse coordinates of player to Tank.cpp
+
+		//TODO Fire if ready
 	}
 }
 
