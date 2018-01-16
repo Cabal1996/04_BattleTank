@@ -23,6 +23,7 @@ void ATankAIController::BeginPlay()
 	{
 		UE_LOG(LogTemp, Error, TEXT("%s have not aimed on Player"), *(this->GetName()));
 	}
+
 }
 
 // Called every frame
