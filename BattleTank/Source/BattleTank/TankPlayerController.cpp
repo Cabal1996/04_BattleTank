@@ -1,9 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "Tank.h"
+
 #include "TankPlayerController.h"
-
-
+#include "Tank.h"
+#include "Engine/World.h"
 
 
 // Called when the game starts or when spawned
@@ -17,11 +17,6 @@ void ATankPlayerController::BeginPlay()
 	{
 		UE_LOG(LogTemp, Error, TEXT("PlayerController not possessing a Tank(Pawn)!!!"));
 	}
-	else 
-	{
-		UE_LOG(LogTemp, Warning, TEXT("We controlling tank with name %s"), *Tank->GetName());
-	}
-
 }
 
 // Called every frame
@@ -109,9 +104,8 @@ bool ATankPlayerController::GetLookVectorHitLocation(FVector WorldLocation, FVec
 	{
 		OUTHitLocation = HitResult.ImpactPoint;
 		return true;
-		//UE_LOG(LogTemp, Warning, TEXT("Hit: %s On: %s"),*Hit.GetActor()->GetName() ,*Hit.ImpactPoint.ToString());
 	}
-
+	
 	OUTHitLocation = FVector(0);
 	return false;
 }

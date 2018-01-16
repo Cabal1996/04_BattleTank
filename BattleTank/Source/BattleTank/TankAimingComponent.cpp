@@ -1,7 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TankAimingComponent.h"
-
+#include "TankBarrel.h"
+#include "Classes/Engine/World.h"
 
 // Sets default values for this component's properties
 UTankAimingComponent::UTankAimingComponent()
@@ -14,7 +15,7 @@ UTankAimingComponent::UTankAimingComponent()
 }
 
 //This has coled in Tank.cpp to set Barrel pointer
-void UTankAimingComponent::SetBarrelReference(UStaticMeshComponent* BarrelToSet)
+void UTankAimingComponent::SetBarrelReference(UTankBarrel* BarrelToSet)
 {
 	Barrel = BarrelToSet;
 }
@@ -22,8 +23,9 @@ void UTankAimingComponent::SetBarrelReference(UStaticMeshComponent* BarrelToSet)
 //Collecting Start Aim Location, End Aim Location, Speed and Calculating Launch Velocity
 void UTankAimingComponent::AimLocation(FVector AimingLocation, float LaunchSpeed)
 {
-	if (!Barrel) { return; }//pointer protection
 	
+	if (!Barrel) { return; }//pointer protection
+
 	FVector OutLaunchVelocity; //OUT parameter
 	FVector StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
 
@@ -45,8 +47,16 @@ void UTankAimingComponent::AimLocation(FVector AimingLocation, float LaunchSpeed
 	{
 		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
 		MoveBarrelTowards(AimDirection);
+		auto Time = GetWorld()->GetRealTimeSeconds();
+		//UE_LOG(LogTemp, Warning, TEXT("%f : solution is found"), Time);
+	}
+	else
+	{
+		auto Time = GetWorld()->GetRealTimeSeconds();
+		//UE_LOG(LogTemp, Warning, TEXT("%f : NO solution found"), Time);
 	}
 	// if no solution found do nothing
+	
 }
 
 void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
@@ -55,19 +65,8 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	auto BarrelRotator = Barrel->GetForwardVector().Rotation();
 	auto AimAsRotator = AimDirection.Rotation();
 	auto DeltaRotator = AimAsRotator - BarrelRotator;
-	UE_LOG(LogTemp, Warning, TEXT("AimAsRotator : %s"), *DeltaRotator.ToString())
-
-	//Move the barrel the right amount this frame
-	//Give a max elevation speed, and the frame time
-
-
-
-
-	//Get access to turret and barrel
-	//Create two rotators
-	//Initialize rotators with data from AimLocation
-	//Rotate turret and lift barrel
-
-
-
+	
+	
+	//Elevation of barrel
+	Barrel->Elevate(5.0f); // TODO remove magic number
 }

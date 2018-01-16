@@ -1,23 +1,20 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "Tank.h"
-#include "TankAIController.h"
 
+#include "TankAIController.h"
+#include "Tank.h"
+#include "Classes/Engine/World.h"
 
 // Called when the game starts or when spawned
 void ATankAIController::BeginPlay()
 {
 	Super::BeginPlay();
-
+	
 	ATank* AITank = GetAIControlledTank();
 
 	if (!AITank)
 	{
 		UE_LOG(LogTemp, Error, TEXT("%s not possessing a Tank(Pawn)"), *(this->GetName()));
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("%s possessing %s"), *(this->GetName()), *AITank->GetName());
 	}
 
 	ATank* PlayerTank = GetPlayerTank();
@@ -25,10 +22,6 @@ void ATankAIController::BeginPlay()
 	if (!PlayerTank)
 	{
 		UE_LOG(LogTemp, Error, TEXT("%s have not aimed on Player"), *(this->GetName()));
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("%s have aimed on %s"), *(this->GetName()), *PlayerTank->GetName())
 	}
 }
 

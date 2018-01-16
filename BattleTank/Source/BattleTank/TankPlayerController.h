@@ -2,9 +2,7 @@
 
 #pragma once
 
-#include "DrawDebugHelpers.h"
-#include "Engine/World.h"
-#include "Engine/EngineTypes.h"
+//#include "Engine/EngineTypes.h"
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
 #include "TankPlayerController.generated.h"// mast be the last include

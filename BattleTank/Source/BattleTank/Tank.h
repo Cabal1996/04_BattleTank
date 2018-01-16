@@ -7,6 +7,7 @@
 #include "Tank.generated.h"
 
 class UTankAimingComponent;
+class UTankBarrel;
 
 UCLASS()
 class BATTLETANK_API ATank : public APawn
@@ -25,9 +26,6 @@ public:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
-
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
@@ -36,11 +34,11 @@ public:
 
 	//Barrel pointer setter
 	UFUNCTION(BlueprintCallable, Category = Setup)
-	void SetBarrelReference(UStaticMeshComponent* BarrelToSet); // Coled from BP Event Graph
+	void SetBarrelReference(UTankBarrel* BarrelToSet); // Coled from BP Event Graph
 
 private:
 
 	UPROPERTY(EditAnywhere, Category = Firing)
-	float LaunchSpeed = 100000.0f; //TODO find sensible default
+	float LaunchSpeed = 60000.0f; //TODO find sensible default
 	
 };

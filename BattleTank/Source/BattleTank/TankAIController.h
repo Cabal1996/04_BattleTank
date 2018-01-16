@@ -3,7 +3,6 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Classes/Engine/World.h"
 #include "AIController.h"
 #include "TankAIController.generated.h"
 
