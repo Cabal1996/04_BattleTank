@@ -23,9 +23,5 @@ public:
 	virtual void Tick(float DeltaTime) override;
 	
 private:
-	//Get pointer to tank BP which controlled by THIS controller
-	ATank* GetAIControlledTank() const;
 
-	//Get FVector which is a player position
-	ATank* GetPlayerTank() const;
 };

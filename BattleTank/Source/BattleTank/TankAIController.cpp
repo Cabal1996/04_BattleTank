@@ -10,20 +10,6 @@ void ATankAIController::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	ATank* AITank = GetAIControlledTank();
-
-	if (!AITank)
-	{
-		UE_LOG(LogTemp, Error, TEXT("%s not possessing a Tank(Pawn)"), *(this->GetName()));
-	}
-
-	ATank* PlayerTank = GetPlayerTank();
-
-	if (!PlayerTank)
-	{
-		UE_LOG(LogTemp, Error, TEXT("%s have not aimed on Player"), *(this->GetName()));
-	}
-
 }
 
 // Called every frame
@@ -31,25 +17,25 @@ void ATankAIController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (GetPlayerTank())
+	//Get Self tank pointer and Player tank pointer
+	ATank* ControlledTank = Cast<ATank>(GetPawn());
+	ATank* PlayerTank = Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
+
+	//Pointer protection
+	if (!ControlledTank) { UE_LOG(LogTemp, Error, TEXT("%s not possessing a Tank(Pawn)"), *(this->GetName())); return; }
+	if (!PlayerTank) { UE_LOG(LogTemp, Error, TEXT("%s have not aimed on Player"), *(this->GetName())); return; }
+
+	if (PlayerTank)
 	{
 		//TODO Move towards a player
 
 		//Aim towards a player
-		GetAIControlledTank()->AimAt(GetPlayerTank()->GetActorLocation()); // Parse coordinates of player to Tank.cpp
+		ControlledTank->AimAt(PlayerTank->GetActorLocation()); // Parse coordinates of player to Tank.cpp
 
-		//TODO Fire if ready
+		//Fire if ready
+		ControlledTank->Fire(); //TODO Don't fire every frame
 	}
 }
 
-ATank* ATankAIController::GetAIControlledTank() const
-{
-	return Cast<ATank>(GetPawn());
-}
-
-ATank* ATankAIController::GetPlayerTank() const
-{
-	return Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
-}
 
 
