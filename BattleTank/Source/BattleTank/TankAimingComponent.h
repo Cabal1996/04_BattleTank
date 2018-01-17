@@ -23,8 +23,6 @@ public:
 	//Collecting Start Aim Location, End Aim Location, Speed and Calculating Launch Velocity
 	void AimLocation(FVector WorldSpaceAim, float LaunchSpeed);
 
-	//TODO add SetTurretReference
-
 	//This has coled in Tank.cpp to set Barrel pointer
 	void SetBarrelReference(UTankBarrel* BarrelToSet);
 
@@ -40,5 +38,4 @@ private:
 	UTankTurret* Turret = nullptr;
 
 	void MoveBarrelTowards(FVector AimDirection);
-	void TurnTurretTowards(FVector AimDirection);
 };

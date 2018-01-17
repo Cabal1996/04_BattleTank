@@ -30,9 +30,6 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	//Coled in Player/AI Controller. Parse Hit location vector to Aiming component
-	void AimAt(FVector HitLocation);
-
 	//Barrel pointer setter
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void SetBarrelReference(UTankBarrel* BarrelToSet); // Coled from BP Event Graph
@@ -41,9 +38,15 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void SetTurretReference(UTankTurret* TurretToSet); // Coled from BP Event Graph
 
+	//Coled in Player/AI Controller. Parse Hit location vector to Aiming component
+	void AimAt(FVector HitLocation);
+
+	UFUNCTION(BlueprintCallable)
+	void Fire();
+
 private:
 
 	UPROPERTY(EditAnywhere, Category = Firing)
-	float LaunchSpeed = 60000.0f; //TODO find sensible default
+	float LaunchSpeed = 4000.0f; 
 	
 };

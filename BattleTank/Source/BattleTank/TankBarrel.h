@@ -26,5 +26,5 @@ private:
 	float MaxElevationDegree = 35.0f; //sensible default
 
 	UPROPERTY(EditAnywhere, Category = Setup)
-	float MinElevationDegree = -5.0f; //sensible default
+	float MinElevationDegree = 0.0f; //sensible default
 };

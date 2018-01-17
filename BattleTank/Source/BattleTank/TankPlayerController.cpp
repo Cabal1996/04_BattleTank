@@ -87,7 +87,7 @@ bool ATankPlayerController::GetLookVectorHitLocation(FVector WorldLocation, FVec
 	//DrawDebugLine(GetWorld(), LineStart, LineEnd, FColor(255, 0, 0, 255), false, 0.0f, 0.0f, 5.0f); //Debugging tool
 
 	//Setup query parameters OPTIONAL
-	//FCollisionQueryParams TraceParameters(FName(TEXT("")), false, GetControlledTank());
+	FCollisionQueryParams TraceParameters(FName(TEXT("")), false, GetControlledTank());
 	
 	//Setup collision parameters OPTIONAL
 	//FCollisionResponseParams ResponseParams(ECollisionResponse::ECR_Block);
@@ -99,7 +99,8 @@ bool ATankPlayerController::GetLookVectorHitLocation(FVector WorldLocation, FVec
 	if (GetWorld()->LineTraceSingleByChannel(HitResult, 
 											LineStart,
 											LineEnd,
-											ECollisionChannel::ECC_Visibility
+											ECollisionChannel::ECC_Visibility,
+											TraceParameters
 											))
 	{
 		OUTHitLocation = HitResult.ImpactPoint;
