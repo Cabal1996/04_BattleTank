@@ -2,6 +2,7 @@
 
 #include "TankAimingComponent.h"
 #include "TankBarrel.h"
+#include "TankTurret.h"
 #include "Classes/Engine/World.h"
 
 // Sets default values for this component's properties
@@ -17,14 +18,23 @@ UTankAimingComponent::UTankAimingComponent()
 //This has coled in Tank.cpp to set Barrel pointer
 void UTankAimingComponent::SetBarrelReference(UTankBarrel* BarrelToSet)
 {
+	if (!BarrelToSet) { return; }
 	Barrel = BarrelToSet;
+}
+
+//This has coled in Tank.cpp to set Turret pointer
+void UTankAimingComponent::SetTurretReference(UTankTurret * TurretToSet)
+{
+	if (!TurretToSet) { return; }
+	Turret = TurretToSet;
 }
 
 //Collecting Start Aim Location, End Aim Location, Speed and Calculating Launch Velocity
 void UTankAimingComponent::AimLocation(FVector AimingLocation, float LaunchSpeed)
 {
 	
-	if (!Barrel) { return; }//pointer protection
+	if (!Barrel) { UE_LOG(LogTemp, Error, TEXT("%s : NO BARREL"), *GetOwner()->GetName()); return; }//pointer protection
+	if (!Turret) { UE_LOG(LogTemp, Error, TEXT("%s : NO TURRET"), *GetOwner()->GetName()); return; }//pointer protection
 
 	FVector OutLaunchVelocity; //OUT parameter
 	FVector StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
@@ -47,16 +57,9 @@ void UTankAimingComponent::AimLocation(FVector AimingLocation, float LaunchSpeed
 	{
 		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
 		MoveBarrelTowards(AimDirection);
-		auto Time = GetWorld()->GetRealTimeSeconds();
-		//UE_LOG(LogTemp, Warning, TEXT("%f : solution is found"), Time);
-	}
-	else
-	{
-		auto Time = GetWorld()->GetRealTimeSeconds();
-		//UE_LOG(LogTemp, Warning, TEXT("%f : NO solution found"), Time);
+		TurnTurretTowards(AimDirection);
 	}
 	// if no solution found do nothing
-	
 }
 
 void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
@@ -69,4 +72,15 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	
 	//Elevation of barrel
 	Barrel->Elevate(DeltaRotator.Pitch);
+}
+
+void UTankAimingComponent::TurnTurretTowards(FVector AimDirection)
+{
+	//Work-out difference between current barrel rotation and AimDirection
+	auto TurretRotation = Turret->GetForwardVector().Rotation();
+	auto AimAsRotator = AimDirection.Rotation();
+	auto DeltaRotation = AimAsRotator - TurretRotation;
+
+	//Turning of turret
+	Turret->Turning(DeltaRotation.Yaw);
 }
