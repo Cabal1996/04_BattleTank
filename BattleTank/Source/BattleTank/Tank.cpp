@@ -57,6 +57,7 @@ void ATank::SetTurretReference(UTankTurret * TurretToSet)
 void ATank::Fire()
 {
 	bool bIsReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds;
+	if (!ProjectileBlueprint) { UE_LOG(LogTemp, Error, TEXT("No Projectile Blueprint installed!!!")); return; }
 	if (Barrel && bIsReloaded)
 	{
 		//Spawn a projectile at the socket location on the barrel

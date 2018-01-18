@@ -47,13 +47,13 @@ public:
 
 private:
 
-	UPROPERTY(EditAnywhere, Category = Setup)
-	float LaunchSpeed = 4000.0f; 
-	
-	UPROPERTY(EditAnywhere, Category = Setup)
+	UPROPERTY(EditDefaultsOnly, Category = Setup)
 	TSubclassOf<AProjectile> ProjectileBlueprint; // Set in BP of Tank
 
-	UPROPERTY(EditAnywhere, Category = Setup)
+	UPROPERTY(EditDefaultsOnly, Category = Setup)
+	float LaunchSpeed = 4000.0f; 
+
+	UPROPERTY(EditDefaultsOnly, Category = Setup)
 	float ReloadTimeInSeconds = 3.0f;
 
 	//Local barrel reference for spawning projectile
