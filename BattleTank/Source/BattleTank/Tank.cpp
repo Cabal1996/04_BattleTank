@@ -7,6 +7,7 @@
 #include "TankTurret.h"
 #include "Classes/Engine/World.h"
 #include "Projectile.h"
+#include "TankMovementComponent.h"
 
 // Sets default values
 ATank::ATank()
@@ -17,6 +18,7 @@ ATank::ATank()
 	//Installing Aiming component to Tank BP by c++ code and get pointer to that component
 	//No need to protect pointer as added at construction
 	TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("Aiming Component"));
+ 
 }
 
 // Called when the game starts or when spawned
