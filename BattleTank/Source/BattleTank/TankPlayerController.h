@@ -24,10 +24,14 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 	
+protected:
+
+	//Get pointer to controlled Tank BP
+	UFUNCTION(BlueprintCallable, Category = "Setup")
+	ATank * GetControlledTank() const;
 
 private:
-	//Get pointer to controlled Tank BP
-	ATank* GetControlledTank() const;
+	
 
 	//Start the Tank moving the barrel so that a shot would hit where
 	//the crosshair intersects the world
