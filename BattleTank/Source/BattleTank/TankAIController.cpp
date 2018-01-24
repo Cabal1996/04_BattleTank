@@ -27,13 +27,14 @@ void ATankAIController::Tick(float DeltaTime)
 
 	if (PlayerTank)
 	{
-		//TODO Move towards a player
+		//Move towards a player
+		MoveToActor(PlayerTank, AcceptanceRadius); //TODO check radius is in cm
 
 		//Aim towards a player
 		ControlledTank->AimAt(PlayerTank->GetActorLocation()); // Parse coordinates of player to Tank.cpp
 
 		//Fire if ready
-		ControlledTank->Fire(); //TODO Don't fire every frame
+		//ControlledTank->Fire(); //TODO Don't fire every frame
 	}
 }
 
