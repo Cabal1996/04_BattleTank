@@ -8,7 +8,17 @@
 #include "Components/ActorComponent.h"
 #include "TankAimingComponent.generated.h"
 
-class UTankBarrel; // Forward Declaration
+//Enum for aiming state
+UENUM()
+enum class EFiringStatus : uint8
+{
+	Reloading,
+	Aiming,
+	Locked
+};
+
+// Forward Declaration
+class UTankBarrel;
 class UTankTurret;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -29,8 +39,13 @@ public:
 	//This has coled in Tank.cpp to set Turret pointer
 	void SetTurretReference(UTankTurret* TurretToSet);
 
+protected:
+
+	UPROPERTY(BlueprintReadOnly, Category = "State")
+	EFiringStatus FiringStatus = EFiringStatus::Locked;
+
 private:
-	
+		
 	//Pointer to Barrel has been set in tank.cpp
 	UTankBarrel* Barrel = nullptr;
 
