@@ -15,18 +15,14 @@ UTankAimingComponent::UTankAimingComponent()
 	// ...
 }
 
-//This has coled in Tank.cpp to set Barrel pointer
-void UTankAimingComponent::SetBarrelReference(UTankBarrel* BarrelToSet)
-{
-	if (!BarrelToSet) { return; }
-	Barrel = BarrelToSet;
-}
 
-//This has coled in Tank.cpp to set Turret pointer
-void UTankAimingComponent::SetTurretReference(UTankTurret * TurretToSet)
+void UTankAimingComponent::Initialise(UTankBarrel * BarrelToSet, UTankTurret * TurretToSet)
 {
 	if (!TurretToSet) { return; }
+	if (!BarrelToSet) { return; }
+
 	Turret = TurretToSet;
+	Barrel = BarrelToSet;
 }
 
 //Collecting Start Aim Location, End Aim Location, Speed and Calculating Launch Velocity
@@ -63,6 +59,7 @@ void UTankAimingComponent::AimLocation(FVector AimingLocation, float LaunchSpeed
 
 void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 {
+	if (!Barrel || !Turret) { return; }
 	//Work-out difference between current barrel rotation and AimDirection
 	auto BarrelRotator = Barrel->GetForwardVector().Rotation();
 	auto AimAsRotator = AimDirection.Rotation();

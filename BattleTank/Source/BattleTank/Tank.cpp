@@ -17,8 +17,7 @@ ATank::ATank()
 
 	//Installing Aiming component to Tank BP by c++ code and get pointer to that component
 	//No need to protect pointer as added at construction
-	TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("Aiming Component"));
- 
+	//TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("Aiming Component"));
 }
 
 // Called when the game starts or when spawned
@@ -26,6 +25,10 @@ void ATank::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	Barrel = FindComponentByClass<UTankBarrel>();
+	TankAimingComponent = FindComponentByClass<UTankAimingComponent>();
+	if (!TankAimingComponent) { UE_LOG(LogTemp, Error, TEXT("No TankAimingComponent")); }
+	if (!Barrel) { UE_LOG(LogTemp, Error, TEXT("No Barrel")); }
 }
 
 // Called to bind functionality to input
@@ -38,23 +41,10 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 //Coled in Player/AI Controller. Parse Hit location vector to Aiming component
 void ATank::AimAt(FVector HitLocation)
 {
+	if (!TankAimingComponent) { return; }
 	TankAimingComponent->AimLocation(HitLocation, LaunchSpeed);
 }
 
-//Barrel pointer setter
-void ATank::SetBarrelReference(UTankBarrel* BarrelToSet)
-{
-	//Set a barrel
-	TankAimingComponent->SetBarrelReference(BarrelToSet);
-	Barrel = BarrelToSet;
-}
-
-//Barrel pointer setter
-void ATank::SetTurretReference(UTankTurret * TurretToSet)
-{
-	//Set a turret
-	TankAimingComponent->SetTurretReference(TurretToSet);
-}
 
 void ATank::Fire()
 {
