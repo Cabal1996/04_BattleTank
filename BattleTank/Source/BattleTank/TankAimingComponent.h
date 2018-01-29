@@ -3,7 +3,6 @@
 #pragma once
 
 #include "CoreMinimal.h"
-//#include "GameFramework/Actor.h"
 #include "Kismet/GameplayStatics.h"
 #include "Components/ActorComponent.h"
 #include "TankAimingComponent.generated.h"
@@ -34,9 +33,12 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	void Initialise(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet);
 
-	//Collecting Start Aim Location, End Aim Location, Speed and Calculating Launch Velocity
-	void AimLocation(FVector WorldSpaceAim, float LaunchSpeed);
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+	float LaunchSpeed = 4000.0f;
 
+	//Collecting Start Aim Location, End Aim Location, Speed and Calculating Launch Velocity
+	//Coled in Player/AI Controller. Parse Hit location vector to Aiming component
+	void AimAt(FVector HitLocation);
 
 protected:
 

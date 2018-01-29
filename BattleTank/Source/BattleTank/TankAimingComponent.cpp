@@ -25,7 +25,8 @@ void UTankAimingComponent::Initialise(UTankBarrel * BarrelToSet, UTankTurret * T
 }
 
 //Collecting Start Aim Location, End Aim Location, Speed and Calculating Launch Velocity
-void UTankAimingComponent::AimLocation(FVector AimingLocation, float LaunchSpeed)
+//Coled in Player/AI Controller. Parse Hit location vector to Aiming component
+void UTankAimingComponent::AimAt(FVector AimingLocation)
 {
 	
 	if (!ensure(Barrel)) { UE_LOG(LogTemp, Error, TEXT("%s : NO BARREL"), *GetOwner()->GetName()); return; }//pointer protection

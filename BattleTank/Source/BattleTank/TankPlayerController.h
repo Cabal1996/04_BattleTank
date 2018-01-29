@@ -10,7 +10,6 @@
 /**
  * Responsible for helping the player aim. 
  */
-class ATank;
 class UTankAimingComponent;
 
 
@@ -30,7 +29,7 @@ protected:
 
 	//Get pointer to controlled Tank BP
 	UFUNCTION(BlueprintCallable, Category = "Setup")
-	ATank * GetControlledTank() const;
+	APawn* GetControlledTank() const;
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
 	void FoundAimingComponent(UTankAimingComponent* AimingCompRef);
@@ -61,4 +60,5 @@ private:
 
 	UPROPERTY(EditDefaultsOnly)
 	float LineTraceRange = 1000000.0f;
+
 };

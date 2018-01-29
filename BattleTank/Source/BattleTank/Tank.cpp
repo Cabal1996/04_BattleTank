@@ -2,7 +2,6 @@
 
 
 #include "Tank.h"
-#include "TankAimingComponent.h"
 #include "TankBarrel.h"
 #include "TankTurret.h"
 #include "Classes/Engine/World.h"
@@ -26,8 +25,6 @@ void ATank::BeginPlay()
 	Super::BeginPlay();
 	
 	Barrel = FindComponentByClass<UTankBarrel>();
-	TankAimingComponent = FindComponentByClass<UTankAimingComponent>();
-	if (!ensure(TankAimingComponent)) { UE_LOG(LogTemp, Error, TEXT("No TankAimingComponent")); }
 	if (!ensure(Barrel)) { UE_LOG(LogTemp, Error, TEXT("No Barrel")); }
 }
 
@@ -38,12 +35,7 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 }
 
-//Coled in Player/AI Controller. Parse Hit location vector to Aiming component
-void ATank::AimAt(FVector HitLocation)
-{
-	if (!ensure(TankAimingComponent)) { return; }
-	TankAimingComponent->AimLocation(HitLocation, LaunchSpeed);
-}
+
 
 
 void ATank::Fire()

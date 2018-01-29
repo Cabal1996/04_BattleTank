@@ -7,9 +7,8 @@
 #include "TankAIController.generated.h"
 
 /**
- * 
+ * Responsible for AI Tanks move, aim and fire every frame
  */
-class ATank;
 
 UCLASS()
 class BATTLETANK_API ATankAIController : public AAIController
@@ -26,5 +25,4 @@ private:
 
 	//How close can the AI tank get
 	float AcceptanceRadius = 3000.f;
-
 };

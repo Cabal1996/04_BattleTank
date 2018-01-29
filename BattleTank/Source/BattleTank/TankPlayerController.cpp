@@ -2,7 +2,6 @@
 
 
 #include "TankPlayerController.h"
-#include "Tank.h"
 #include "Engine/World.h"
 #include "TankAimingComponent.h"
 
@@ -16,11 +15,6 @@ void ATankPlayerController::BeginPlay()
 	{
 		FoundAimingComponent(AimingComponent);
 	}
-	else
-	{
-		UE_LOG(LogTemp, Error, TEXT("Player Controller can't find Aiming Component at Begin Play"));
-	}
-	
 }
 
 // Called every frame
@@ -31,15 +25,17 @@ void ATankPlayerController::Tick(float DeltaTime)
 }
 
 //Get pointer to controlled Tank BP
-ATank* ATankPlayerController::GetControlledTank() const
+APawn* ATankPlayerController::GetControlledTank() const
 {
-	return Cast<ATank>(GetPawn());
+	return GetPawn();
 }
 
 //Start the Tank moving the barrel so that a shot would hit where
 //the crosshair intersects the world
 void ATankPlayerController::AimTowardsCrosshair()
 {
+	auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
+	if (!ensure(AimingComponent)) { return; } //pointer protection
 	if (!ensure(GetControlledTank())) { return; } //pointer protection
 
 	FVector HitLocation; // Out parameter
@@ -47,7 +43,7 @@ void ATankPlayerController::AimTowardsCrosshair()
 	//if its hit the landscape
 	if (GetSightRayHitLocation(HitLocation)) //Has a "side-effect", is going to line trace
 	{
-		GetControlledTank()->AimAt(HitLocation); // Parse coordinates of HIT Location to Tank.cpp
+		AimingComponent->AimAt(HitLocation); // Parse coordinates of HIT Location to Tank.cpp
 	}
 }
 
