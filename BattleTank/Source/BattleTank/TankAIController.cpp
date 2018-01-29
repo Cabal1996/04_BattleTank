@@ -37,6 +37,7 @@ void ATankAIController::Tick(float DeltaTime)
 		
 		AimingComponent->AimAt(PlayerTank->GetActorLocation()); // Parse coordinates of player to Tank.cpp
 
+		//TODO fix firing
 		//Fire if ready
 		//ControlledTank->Fire(); //TODO Don't fire every frame
 	}
