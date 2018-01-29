@@ -5,6 +5,8 @@
 #include "Tank.h"
 #include "Classes/Engine/World.h"
 
+// Depends on movement component via path-finding system
+
 // Called when the game starts or when spawned
 void ATankAIController::BeginPlay()
 {
@@ -22,10 +24,8 @@ void ATankAIController::Tick(float DeltaTime)
 	ATank* PlayerTank = Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
 
 	//Pointer protection
-	if (!ControlledTank) { UE_LOG(LogTemp, Error, TEXT("%s not possessing a Tank(Pawn)"), *(this->GetName())); return; }
-	if (!PlayerTank) { UE_LOG(LogTemp, Error, TEXT("%s have not aimed on Player"), *(this->GetName())); return; }
-
-	if (PlayerTank)
+	if (!ensure(ControlledTank)) { UE_LOG(LogTemp, Error, TEXT("%s not possessing a Tank(Pawn)"), *(this->GetName())); return; }
+	if (ensure(PlayerTank))
 	{
 		//Move towards a player
 		MoveToActor(PlayerTank, AcceptanceRadius); //TODO check radius is in cm

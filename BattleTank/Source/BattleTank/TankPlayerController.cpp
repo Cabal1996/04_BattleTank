@@ -12,7 +12,7 @@ void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 	auto AimingComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
-	if (AimingComponent)
+	if (ensure(AimingComponent))
 	{
 		FoundAimingComponent(AimingComponent);
 	}
@@ -40,7 +40,7 @@ ATank* ATankPlayerController::GetControlledTank() const
 //the crosshair intersects the world
 void ATankPlayerController::AimTowardsCrosshair()
 {
-	if (!GetControlledTank()) { return; } //pointer protection
+	if (!ensure(GetControlledTank())) { return; } //pointer protection
 
 	FVector HitLocation; // Out parameter
 
@@ -49,7 +49,6 @@ void ATankPlayerController::AimTowardsCrosshair()
 	{
 		GetControlledTank()->AimAt(HitLocation); // Parse coordinates of HIT Location to Tank.cpp
 	}
-
 }
 
 //Get world location of linetrace through crosshair, true if hits landscape

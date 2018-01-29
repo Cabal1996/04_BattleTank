@@ -7,7 +7,7 @@
 #include "TankTurret.h"
 #include "Classes/Engine/World.h"
 #include "Projectile.h"
-#include "TankMovementComponent.h"
+
 
 // Sets default values
 ATank::ATank()
@@ -27,8 +27,8 @@ void ATank::BeginPlay()
 	
 	Barrel = FindComponentByClass<UTankBarrel>();
 	TankAimingComponent = FindComponentByClass<UTankAimingComponent>();
-	if (!TankAimingComponent) { UE_LOG(LogTemp, Error, TEXT("No TankAimingComponent")); }
-	if (!Barrel) { UE_LOG(LogTemp, Error, TEXT("No Barrel")); }
+	if (!ensure(TankAimingComponent)) { UE_LOG(LogTemp, Error, TEXT("No TankAimingComponent")); }
+	if (!ensure(Barrel)) { UE_LOG(LogTemp, Error, TEXT("No Barrel")); }
 }
 
 // Called to bind functionality to input
@@ -41,7 +41,7 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 //Coled in Player/AI Controller. Parse Hit location vector to Aiming component
 void ATank::AimAt(FVector HitLocation)
 {
-	if (!TankAimingComponent) { return; }
+	if (!ensure(TankAimingComponent)) { return; }
 	TankAimingComponent->AimLocation(HitLocation, LaunchSpeed);
 }
 
@@ -49,8 +49,9 @@ void ATank::AimAt(FVector HitLocation)
 void ATank::Fire()
 {
 	bool bIsReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds;
-	if (!ProjectileBlueprint) { UE_LOG(LogTemp, Error, TEXT("No Projectile Blueprint installed!!!")); return; }
-	if (Barrel && bIsReloaded)
+	if (!ensure(Barrel)) { return; }
+	if (!ensure(ProjectileBlueprint)) { UE_LOG(LogTemp, Error, TEXT("No Projectile Blueprint installed!!!")); return; }
+	if (bIsReloaded)
 	{
 		//Spawn a projectile at the socket location on the barrel
 		FVector SpawnLocation = Barrel->GetSocketLocation(FName("Projectile"));

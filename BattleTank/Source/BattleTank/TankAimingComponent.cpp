@@ -18,8 +18,7 @@ UTankAimingComponent::UTankAimingComponent()
 
 void UTankAimingComponent::Initialise(UTankBarrel * BarrelToSet, UTankTurret * TurretToSet)
 {
-	if (!TurretToSet) { return; }
-	if (!BarrelToSet) { return; }
+	if (!ensure(TurretToSet && BarrelToSet)) { return; }
 
 	Turret = TurretToSet;
 	Barrel = BarrelToSet;
@@ -29,8 +28,8 @@ void UTankAimingComponent::Initialise(UTankBarrel * BarrelToSet, UTankTurret * T
 void UTankAimingComponent::AimLocation(FVector AimingLocation, float LaunchSpeed)
 {
 	
-	if (!Barrel) { UE_LOG(LogTemp, Error, TEXT("%s : NO BARREL"), *GetOwner()->GetName()); return; }//pointer protection
-	if (!Turret) { UE_LOG(LogTemp, Error, TEXT("%s : NO TURRET"), *GetOwner()->GetName()); return; }//pointer protection
+	if (!ensure(Barrel)) { UE_LOG(LogTemp, Error, TEXT("%s : NO BARREL"), *GetOwner()->GetName()); return; }//pointer protection
+	if (!ensure(Turret)) { UE_LOG(LogTemp, Error, TEXT("%s : NO TURRET"), *GetOwner()->GetName()); return; }//pointer protection
 
 	FVector OutLaunchVelocity; //OUT parameter
 	FVector StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
@@ -59,7 +58,7 @@ void UTankAimingComponent::AimLocation(FVector AimingLocation, float LaunchSpeed
 
 void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 {
-	if (!Barrel || !Turret) { return; }
+	if (!ensure(Barrel && Turret)) { return; }
 	//Work-out difference between current barrel rotation and AimDirection
 	auto BarrelRotator = Barrel->GetForwardVector().Rotation();
 	auto AimAsRotator = AimDirection.Rotation();
