@@ -19,6 +19,7 @@ enum class EFiringStatus : uint8
 // Forward Declaration
 class UTankBarrel;
 class UTankTurret;
+class AProjectile;
 
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class BATTLETANK_API UTankAimingComponent : public UActorComponent
@@ -40,6 +41,9 @@ public:
 	//Coled in Player/AI Controller. Parse Hit location vector to Aiming component
 	void AimAt(FVector HitLocation);
 
+	UFUNCTION(BlueprintCallable)
+	void Fire();
+
 protected:
 
 	UPROPERTY(BlueprintReadOnly, Category = "State")
@@ -53,5 +57,14 @@ private:
 	//Pointer to Turret has been set in tank.cpp
 	UTankTurret* Turret = nullptr;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+	TSubclassOf<AProjectile> ProjectileBlueprint; // Set in BP of Tank
+
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+	float ReloadTimeInSeconds = 3.0f;
+
+	double LastFireTime = 0;
+
 	void MoveBarrelTowards(FVector AimDirection);
+
 };

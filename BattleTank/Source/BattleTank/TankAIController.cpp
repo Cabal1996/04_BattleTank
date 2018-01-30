@@ -39,7 +39,7 @@ void ATankAIController::Tick(float DeltaTime)
 
 		//TODO fix firing
 		//Fire if ready
-		//ControlledTank->Fire(); //TODO Don't fire every frame
+		AimingComponent->Fire(); //TODO Don't fire every frame
 	}
 }
 

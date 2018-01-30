@@ -2,10 +2,7 @@
 
 
 #include "Tank.h"
-#include "TankBarrel.h"
-#include "TankTurret.h"
 #include "Classes/Engine/World.h"
-#include "Projectile.h"
 
 
 // Sets default values
@@ -24,8 +21,6 @@ void ATank::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	Barrel = FindComponentByClass<UTankBarrel>();
-	if (!ensure(Barrel)) { UE_LOG(LogTemp, Error, TEXT("No Barrel")); }
 }
 
 // Called to bind functionality to input
@@ -33,28 +28,4 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
-}
-
-
-
-
-void ATank::Fire()
-{
-	bool bIsReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds;
-	if (!ensure(Barrel)) { return; }
-	if (!ensure(ProjectileBlueprint)) { UE_LOG(LogTemp, Error, TEXT("No Projectile Blueprint installed!!!")); return; }
-	if (bIsReloaded)
-	{
-		//Spawn a projectile at the socket location on the barrel
-		FVector SpawnLocation = Barrel->GetSocketLocation(FName("Projectile"));
-		auto Projectile = GetWorld()->SpawnActor<AProjectile>
-			(
-				ProjectileBlueprint,
-				Barrel->GetSocketLocation(FName("Projectile")),
-				Barrel->GetSocketRotation(FName("Projectile"))
-				);
-		Projectile->LaunchProjectile(LaunchSpeed);
-
-		LastFireTime = FPlatformTime::Seconds();
-	}
 }

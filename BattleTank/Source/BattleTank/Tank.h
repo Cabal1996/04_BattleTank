@@ -6,9 +6,6 @@
 #include "GameFramework/Pawn.h"
 #include "Tank.generated.h"
 
-class UTankBarrel;
-class UTankTurret;
-class AProjectile;
 
 
 UCLASS()
@@ -27,24 +24,6 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	UFUNCTION(BlueprintCallable)
-	void Fire();
-
 private:
-
-	UPROPERTY(EditDefaultsOnly, Category = "Setup")
-	TSubclassOf<AProjectile> ProjectileBlueprint; // Set in BP of Tank
-
-
-	//TODO remover once Firing is moved to Aiming Component
-	UPROPERTY(EditDefaultsOnly, Category = "Setup")
-	float LaunchSpeed = 4000.0f; 
-
-	UPROPERTY(EditDefaultsOnly, Category = "Setup")
-	float ReloadTimeInSeconds = 3.0f;
-
-	//Local barrel reference for spawning projectile
-	UTankBarrel* Barrel = nullptr;
-
-	double LastFireTime = 0;
+	
 };
