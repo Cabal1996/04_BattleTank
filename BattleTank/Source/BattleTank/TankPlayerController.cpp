@@ -34,10 +34,10 @@ APawn* ATankPlayerController::GetControlledTank() const
 //the crosshair intersects the world
 void ATankPlayerController::AimTowardsCrosshair()
 {
+	if (!ensure(GetControlledTank())) { return; } //pointer protection
 	auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 	if (!ensure(AimingComponent)) { return; } //pointer protection
-	if (!ensure(GetControlledTank())) { return; } //pointer protection
-
+	
 	FVector HitLocation; // Out parameter
 
 	//if its hit the landscape
